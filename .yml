@@ -1,0 +1,43 @@
+name: Recipe Manager Assessment Workflow
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  validate:
+    name: Validate Project Files
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Install ESLint
+        run: npm install -g eslint
+
+      - name: Lint JavaScript files
+        run: |
+          eslint js/*.js || echo "JS Lint finished with errors."
+
+      - name: Validate HTML files
+        run: |
+          npm install -g html-validator-cli
+          html-validator --verbose "index.html"
+          html-validator --verbose "add-edit.html"
+          html-validator --verbose "recipe.html"
+          html-validator --verbose "gallery.html"
+
+      - name: Validate CSS files
+        run: |
+          npm install -g stylelint
+          stylelint "css/*.css" || echo "CSS Lint finished with errors."

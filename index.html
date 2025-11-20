@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Recipe Manager</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="overlay-bg"></div>
+
+<header>
+  <h1>Recipe Manager</h1>
+  <div class="header-buttons">
+    <a href="add-edit.html" class="btn">Add Recipe</a>
+    <a href="gallery.html" class="btn">Gallery</a>
+  </div>
+</header>
+
+<section class="filters">
+  <input type="text" id="searchInput" placeholder="Search by title...">
+  <select id="difficultyFilter">
+    <option value="All">All Difficulties</option>
+    <option value="Easy">Easy</option>
+    <option value="Medium">Medium</option>
+    <option value="Hard">Hard</option>
+  </select>
+</section>
+
+<section class="recipes-container" id="recipesContainer"></section>
+
+<script src="js/storage.js"></script>
+<script src="js/recipes.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add / Edit Recipe</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="overlay-bg"></div>
+
+  <header>
+    <h1>Recipe Manager</h1>
+    <div class="header-buttons">
+      <a href="index.html" class="btn">Home</a>
+    </div>
+  </header>
+
+  <section class="form-container">
+    <h2 id="formTitle">Add Recipe</h2>
+    <form id="recipeForm">
+  <input type="text" id="title" placeholder="Recipe Title" required>
+  <textarea id="description" placeholder="Description" required></textarea>
+  <textarea id="ingredients" placeholder="Ingredients (comma separated)" required></textarea>
+  <textarea id="steps" placeholder="Steps (comma separated)" required></textarea>
+  <input type="number" id="prepTime" placeholder="Prep Time (minutes)" required>
+  <select id="difficulty" required>
+    <option value="">Select Difficulty</option>
+    <option value="Easy">Easy</option>
+    <option value="Medium">Medium</option>
+    <option value="Hard">Hard</option>
+  </select>
+  <label for="image">Upload Recipe Image:</label>
+  <input type="file" id="image" accept="image/*">
+  <button type="submit" id="submitBtn">Save Recipe</button>
+</form>
+  </section>
+
+  <script src="js/main.js"></script>
+  <script>
+    const formTitle = document.getElementById("formTitle");
+    const recipeForm = document.getElementById("recipeForm");
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const recipeId = urlParams.get("id"); // null if adding new
+
+    const recipes = JSON.parse(localStorage.getItem("recipes")) || [];
+
+    // Populate form if editing
+    if(recipeId){
+      const recipe = recipes.find(r => r.id === Number(recipeId));
+      if(recipe){
+        formTitle.textContent = "Edit Recipe";
+        document.getElementById("title").value = recipe.title;
+        document.getElementById("description").value = recipe.description;
+        document.getElementById("ingredients").value = recipe.ingredients.join(", ");
+        document.getElementById("steps").value = recipe.steps.join(", ");
+        document.getElementById("prepTime").value = recipe.prepTime;
+        document.getElementById("difficulty").value = recipe.difficulty;
+        document.getElementById("imageUrl").value = recipe.imageUrl || "";
+      }
+    }
+
+    // Form submission
+    recipeForm.addEventListener("submit", e => {
+      e.preventDefault();
+
+      const newRecipe = {
+        id: recipeId ? Number(recipeId) : Date.now(),
+        title: document.getElementById("title").value.trim(),
+        description: document.getElementById("description").value.trim(),
+        ingredients: document.getElementById("ingredients").value.split(",").map(i=>i.trim()),
+        steps: document.getElementById("steps").value.split(",").map(s=>s.trim()),
+        prepTime: Number(document.getElementById("prepTime").value),
+        difficulty: document.getElementById("difficulty").value,
+        imageUrl: document.getElementById("imageUrl").value.trim()
+      };
+
+      if(recipeId){
+        // Edit existing
+        const index = recipes.findIndex(r => r.id === Number(recipeId));
+        recipes[index] = newRecipe;
+      } else {
+        // Add new
+        recipes.push(newRecipe);
+      }
+
+      localStorage.setItem("recipes", JSON.stringify(recipes));
+      window.location.href = `recipe.html?id=${newRecipe.id}`;
+    });
+  </script>
+</body>
+</html>

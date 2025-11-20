@@ -1,2 +1,24 @@
-# Auto detect text files and perform LF normalization
+# Ensure consistent line endings
 * text=auto
+
+# Treat scripts and markup as text
+*.html text
+*.css text
+*.js text
+
+# Images are binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.svg binary
+*.ico binary
+
+# Ignore local config files (optional)
+*.env text eol=lf
+
+# Prevent Git from normalizing JSON files if needed
+*.json text
+
+# Treat markdown files as text
+*.md text
