@@ -46,7 +46,6 @@
 
     const recipes = JSON.parse(localStorage.getItem("recipes")) || [];
 
-    // Populate form if editing
     if(recipeId){
       const recipe = recipes.find(r => r.id === Number(recipeId));
       if(recipe){

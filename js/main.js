@@ -1,8 +1,4 @@
-/* -------------------------------
-   MAIN.JS - Recipe Manager App
----------------------------------*/
 
-// ====== INITIAL SETUP ====== //
 let recipes = JSON.parse(localStorage.getItem('recipes')) || [];
 
 // Add sample recipe if none exists
